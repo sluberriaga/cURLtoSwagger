@@ -2008,7 +2008,7 @@ function isArrayLike( obj ) {
 	}
 
 	return type === "array" || length === 0 ||
-		typeof length === "number" && length > 0 && ( length - 1 ) in obj;
+		typeof length === "number" && length > 0;
 }
 var Sizzle =
 /*!
