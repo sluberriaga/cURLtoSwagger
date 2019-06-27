@@ -172,12 +172,10 @@ $(function() {
     return options;
   }
   
-  function convert_request(params, place, options) {
-    result = [];
-    
-    $.each(params, function(key, value) {
+  function convert_request(params, place, options) {  
+    return params.map(function(key, value) {
       if (Array.isArray(value) && typeof value[0] != 'object') {
-        result.push({
+        return {
           name: key,
           type: 'array',
           in: place,
@@ -186,27 +184,26 @@ $(function() {
           items: {
             type: (typeof value[0])
           }
-        });
+        }
       }else if (typeof value == 'object') {
-        result.push({
+        return {
           name: key,
           type: Array.isArray(value) == 'array' ? 'array' : 'object',
           in: place,
           description: get_value(options, "parameters."+key+".description", ""),
           required: get_value(options, "parameters."+key+".required", true),
           properties: convert_response(value)
-        });
+        }
       } else {
-        result.push({
+        return {
           name: key,
           type: (typeof value),
           in: place,
           description: get_value(options, "parameters."+key+".description", ""),
           required: get_value(options, "parameters."+key+".required", true)
-        })
+        }
       }
     });
-    return result;
   }
   
   function convert_response(response, options, parent) {
